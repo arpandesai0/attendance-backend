@@ -26,7 +26,9 @@ const complile = async (tmp, data) => {
 //pdf generator
 const getPdf = async (data) => {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
     const content = await complile("attendance", data);
     await page.setContent(content);
