@@ -71,14 +71,21 @@ router.post("/", (req, res) => {
     data.statslist[i].issafe = issafe;
   }
   try {
-    getPdf(data).then(() => {
+    getPdf(data).then(async () => {
       const loc = path.join(
         process.cwd(),
         "resources",
         `${data.name.replace(" ", "")}.pdf`
       );
       console.log(loc);
-      return res.status(200).download(loc);
+      await res.status(200).download(loc);
+      fs.remove(loc)
+        .then(() => {
+          console.log("file deleted!");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     });
   } catch (error) {
     console.log(error);
