@@ -10,5 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //defining routes
+app.get("/", (req, res) => res.send("Test Ok"));
 const createRouter = require("./routes/create.router");
 app.use("/create", createRouter);
