@@ -10,6 +10,7 @@ const complile = async (tmp, data) => {
   const html = await fs.readFile(tmppath, "utf-8");
   return hbs.compile(html)(data);
 };
+//hbs helpers
 // hbs.registerHelper("add", (a, b) => {
 //   return parseInt(a) + parseInt(b);
 // });
