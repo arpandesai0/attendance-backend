@@ -1,10 +1,10 @@
 <html>
   <head>
     <style>
-      body{ font-family: 'Open Sans', sans-serif; } p{font-weight: 500;} table {
+      *{ font-family: 'Open Sans', sans-serif;font-size: 12px; } p{font-weight: 500;} table {
       border-collapse: collapse; width: 100%; } td, th { border: 1px solid
-      #dddddd; text-align: left; padding: 8px; } tr:nth-child(even) {
-      background-color: rgba(221, 221, 221,0.25); }
+      #dddddd; text-align: center; padding: 8px; } tr:nth-child(even) {
+      background-color: rgba(221, 221, 221,0.25); } .red{color: red;}
     </style>
   </head>
   <body>
@@ -19,11 +19,11 @@
         <th>Percentage</th>
       </tr>
       {{#each statslist as |item|}}
-        <tr>
+        <tr class="{{#if item.issafe}} red {{/if}}">
           <td>{{item.rollno}}</td>
           <td>{{item.totPresentee}}</td>
-          <td>{{add item.totPresentee item.totAbsentee}}</td>
-          <td>{{percentage item.totPresentee item.totAbsentee}}</td>
+          <td>{{item.totalClasses}}</td>
+          <td>{{item.percentage}}</td>
         </tr>
       {{/each}}
     </table>

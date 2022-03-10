@@ -10,12 +10,19 @@ const complile = async (tmp, data) => {
   const html = await fs.readFile(tmppath, "utf-8");
   return hbs.compile(html)(data);
 };
-hbs.registerHelper("add", (a, b) => {
-  return parseInt(a) + parseInt(b);
-});
-hbs.registerHelper("percentage", (a, b) => {
-  return parseInt((parseInt(a) / (parseInt(a) + parseInt(b))) * 100);
-});
+// hbs.registerHelper("add", (a, b) => {
+//   return parseInt(a) + parseInt(b);
+// });
+// hbs.registerHelper("percentage", (a, b) => {
+//   return parseInt((parseInt(a) / (parseInt(a) + parseInt(b))) * 100);
+// });
+// hbs.registerHelper("issafe", (a, b) => {
+//   const ans =
+//     parseInt((parseInt(a) / (parseInt(a) + parseInt(b))) * 100) > 75
+//       ? true
+//       : false;
+//   return ans;
+// });
 //pdf generator
 const getPdf = async (data) => {
   try {
@@ -25,7 +32,7 @@ const getPdf = async (data) => {
     await page.setContent(content);
     // await page.emulate()
     await page.pdf({
-      path: __dirname + "/test.pdf",
+      path: `${__dirname}/${data.name.replace(" ", "")}.pdf`,
       format: "A4",
       printBackground: true,
       margin: {
@@ -40,24 +47,25 @@ const getPdf = async (data) => {
   } catch (error) {
     console.log(error);
   }
+  return;
 };
-const test = {
-  department: "Electrical & Electronics Engineering",
-  name: "EEL201",
-  semester: "6",
-  statslist: [
-    { rollno: "BT19EEE068", totAbsentee: 0, totPresentee: 3 },
-    { rollno: "BT19EEE069", totAbsentee: 2, totPresentee: 1 },
-    { rollno: "BT19EEE070", totAbsentee: 0, totPresentee: 3 },
-  ],
-};
+
 //api route
 router.get("/", (req, res) => res.status(200).send("Method not allowed"));
 router.post("/", (req, res) => {
   const data = req.body;
+  for (let i = 0; i < data.statslist.length; i++) {
+    const p = parseInt(data.statslist[i].totPresentee);
+    const a = parseInt(data.statslist[i].totAbsentee);
+    const percentage = parseInt((p / (a + p)) * 100);
+    const issafe = percentage > 75 ? false : true;
+    data.statslist[i].totalClasses = p + a;
+    data.statslist[i].percentage = percentage;
+    data.statslist[i].issafe = issafe;
+  }
   try {
     getPdf(data).then(() => {
-      const path = `${__dirname}\\test.pdf`;
+      const path = `${__dirname}\\${data.name.replace(" ", "")}.pdf`;
       return res.status(200).download(path);
     });
   } catch (error) {
