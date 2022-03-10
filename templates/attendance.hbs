@@ -15,13 +15,15 @@
       <tr>
         <th>Enrolment No.</th>
         <th>Total Presentee</th>
-        <th>Total Absentee</th>
+        <th>Total Classes</th>
+        <th>Percentage</th>
       </tr>
       {{#each statslist as |item|}}
         <tr>
           <td>{{item.rollno}}</td>
           <td>{{item.totPresentee}}</td>
-          <td>{{item.totAbsentee}}</td>
+          <td>{{add item.totPresentee item.totAbsentee}}</td>
+          <td>{{percentage item.totPresentee item.totAbsentee}}</td>
         </tr>
       {{/each}}
     </table>
