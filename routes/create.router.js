@@ -32,7 +32,11 @@ const getPdf = async (data) => {
     await page.setContent(content);
     // await page.emulate()
     await page.pdf({
-      path: `${data.name.replace(" ", "")}.pdf`,
+      path: path.join(
+        process.cwd(),
+        "resources",
+        `${data.name.replace(" ", "")}.pdf`
+      ),
       format: "A4",
       printBackground: true,
       margin: {
@@ -65,8 +69,13 @@ router.post("/", (req, res) => {
   }
   try {
     getPdf(data).then(() => {
-      const path = `${data.name.replace(" ", "")}.pdf`;
-      return res.status(200).download(path);
+      const loc = path.join(
+        process.cwd(),
+        "resources",
+        `${data.name.replace(" ", "")}.pdf`
+      );
+      console.log(loc);
+      return res.status(200).download(loc);
     });
   } catch (error) {
     console.log(error);
