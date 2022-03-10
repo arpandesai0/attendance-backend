@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <style>
+      body{ font-family: 'Open Sans', sans-serif; } p{font-weight: 500;} table {
+      border-collapse: collapse; width: 100%; } td, th { border: 1px solid
+      #dddddd; text-align: left; padding: 8px; } tr:nth-child(even) {
+      background-color: rgba(221, 221, 221,0.25); }
+    </style>
+  </head>
+  <body>
+    <p>Department: {{department}}</p>
+    <p>Course: {{name}}</p>
+    <p>Semester: {{semester}}</p>
+    <table>
+      <tr>
+        <th>Enrolment No.</th>
+        <th>Total Presentee</th>
+        <th>Total Absentee</th>
+      </tr>
+      {{#each statslist as |item|}}
+        <tr>
+          <td>{{item.rollno}}</td>
+          <td>{{item.totPresentee}}</td>
+          <td>{{item.totAbsentee}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  </body>
+</html>
